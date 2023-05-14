@@ -1,5 +1,6 @@
 
 from typing import Any, Dict, List, Optional, Union
+from urllib.parse import quote
 
 from pydantic import AnyHttpUrl, BaseSettings, validator
 
@@ -27,7 +28,7 @@ class Settings(BaseSettings):
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
         if isinstance(v, str):
             return v
-        return f"mysql://{values.get('MYSQL_USER')}:{values.get('MYSQL_PASSWORD')}@{values.get('MYSQL_HOST')}:" \
+        return f"mysql://{values.get('MYSQL_USER')}:{quote(values.get('MYSQL_PASSWORD'))}@{values.get('MYSQL_HOST')}:" \
                f"{values.get('MYSQL_PORT')}/{values.get('MYSQL_DATABASE')}"
     
     AUTH_SECRET_KEY: str
