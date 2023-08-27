@@ -12,7 +12,11 @@ from app.models import User
 
 
 def get_user(db: Session, username: str) -> Optional[User]:
-    return db.query(User).filter(User.username == username, User.deleted_at == None).first()
+    return (
+        db.query(User)
+        .filter(User.username == username, User.deleted_at == None)
+        .first()
+    )
 
 
 def get_users(db: Session) -> List[User]:
