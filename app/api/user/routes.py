@@ -17,7 +17,9 @@ router = APIRouter()
 async def create_user_route(user: UserCreate, db: Session = Depends(get_db)):
     db_user = user_controller.get_user(db, username=user.username)
     if db_user:
-        raise HTTPException(status_code=400, detail="Account already registered")
+        raise HTTPException(
+            status_code=400, detail="Account already registered"
+        )
     return user_controller.create_user(db, user)
 
 
@@ -34,7 +36,7 @@ async def read_user(username: str, db: Session = Depends(get_db)):
     return db_user
 
 
-@router.put("/users/{username}", response_model=User)
+@router.put("/{username}", response_model=User)
 async def update_user_route(
     username: str, user: UserUpdate, db: Session = Depends(get_db)
 ):
@@ -44,7 +46,7 @@ async def update_user_route(
     return user_controller.update_user(db, db_user, user)
 
 
-@router.delete("/users/{username}", response_model=User)
+@router.delete("/{username}", response_model=User)
 async def delete_user_route(username: str, db: Session = Depends(get_db)):
     db_user = user_controller.get_user(db, username=username)
     if not db_user:
