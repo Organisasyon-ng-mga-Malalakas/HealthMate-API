@@ -1,0 +1,10 @@
+@startuml
+left to right direction
+actor "User" as U
+rectangle "Set Medication Reminder" as Rem {
+  usecase "Input Medication Details" as UC1
+  usecase "Save Reminder Details" as UC2
+}
+U --> UC1
+UC1 --> UC2 : <<include>>
+@enduml

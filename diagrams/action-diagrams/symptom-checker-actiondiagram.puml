@@ -1,0 +1,14 @@
+@startuml
+|User|
+start
+:Enter Body Part;
+:Enter Symptoms;
+|System|
+:Generate List of Possible illness;
+if (Is it severe?) then (yes)
+  :Prompt user to seek a professional;
+end
+else (no)
+  :Show Home Remedy;
+end
+@enduml

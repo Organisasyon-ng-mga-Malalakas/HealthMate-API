@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+actor "User" as U
+rectangle "Track Medication History" as Hist {
+  usecase "View Medication History" as UC1
+  usecase "Generate Medication Log" as UC2
+  usecase "Detect Signs of Illness" as UC3
+  usecase "Seek Professional Help" as UC4
+}
+U --> UC1
+UC2 ..> UC3 : <<include>>
+UC3 .> UC4 : <<extend>>
+UC1 .> UC2 : <<include>>
+
+@enduml

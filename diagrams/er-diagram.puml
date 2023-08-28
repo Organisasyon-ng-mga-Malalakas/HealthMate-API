@@ -1,0 +1,37 @@
+@startuml
+entity "User" as user {
+  + UserID : int
+  --
+  Name : varchar(100)
+  Email : varchar(100)
+  Password : varchar(100)
+  AuthType : varchar(10)
+  RegistrationDate : timestamp
+}
+
+entity "Medicine" as medication {
+  + MedicineID : int
+  --
+  # UserID : int
+  Name : varchar(100)
+  Dosage : varchar(100)
+  DosageUnit : varchar(100)
+  Type : varchar(100)
+  BrandName : varchar(100)
+  Type : varchar(100)
+}
+
+entity "Reminder" as reminder {
+  + ReminderID : int
+  --
+  # UserID : int
+  # MedicineID : int
+  Time : datetime
+  ReminderType : varchar(50)
+  Status : varchar(50)
+}
+
+user ||..o{ reminder
+user ||..o{ medication
+medication ||..o{ reminder
+@enduml

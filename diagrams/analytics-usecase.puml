@@ -1,0 +1,10 @@
+@startuml
+left to right direction
+actor "User" as U
+rectangle "View Medication Analysis" as Analysis {
+  usecase "Access Medication Analysis" as UC1
+  usecase "Generate Analysis Report" as UC2
+}
+U --> UC1
+UC1 --> UC2 : <<include>>
+@enduml

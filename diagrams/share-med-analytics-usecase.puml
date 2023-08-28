@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor "User" as U
+actor "Doctor" as D
+rectangle "Share Medication Analytics" as Share {
+  usecase "Select Information to Share" as UC1
+  usecase "Select Recipient" as UC2
+  usecase "Share Data" as UC3
+}
+U --> UC1
+UC1 --> UC2 : <<include>>
+UC2 --> UC3 : <<include>>
+UC3 --> D
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+class User {
+  - fullname: String
+  - email: String
+  - password: String
+  + register()
+  + login()
+  + getReminders()
+  + getMedicineInventory()
+}
+
+class Reminder {
+  - user: User
+  - medicine: Medicine
+  - reminderTime: DateTime
+  - isCompleted: Boolean
+  + updateReminder()
+  + deleteReminder()
+}
+
+class SymptomChecker {
+  - user: User
+  - symptoms: List<String>
+  - possibleDiseases: List<String>
+  + checkSymptoms()
+  + getPossibleDiseases()
+}
+
+class Medicine {
+  - brandName: String
+  - name: String
+  - type: String
+  - dosage: Integer
+  - dosageUnit: String
+  - description: String
+}
+
+class Inventory {
+  - user: User
+  - medicine: Medicine
+  - stock: Integer
+  + updateStock()
+}
+
+User "1" -- "*" Reminder
+User "1" -- "1" SymptomChecker
+User "1" -- "1" Inventory
+Medicine "1" -- "1" Inventory
+Reminder "1" -- "*" Medicine
+
+@enduml

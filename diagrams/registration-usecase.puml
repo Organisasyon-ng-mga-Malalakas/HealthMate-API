@@ -1,0 +1,12 @@
+@startuml
+left to right direction
+actor "User" as U
+rectangle "Registration" as Reg {
+  usecase "Input Account Details" as UC1
+  usecase "Send Email Confirmation" as UC2
+  usecase "Activate Account" as UC3
+}
+U --> UC1
+UC1 ..> UC2 : <<include>>
+UC2 .> UC3 : <<include>>
+@enduml

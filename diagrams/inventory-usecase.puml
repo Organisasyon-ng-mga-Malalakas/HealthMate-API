@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+actor "User" as U
+rectangle "Manage Medicine Inventory" as Rem {
+  usecase "Input Medicine Details" as UC1
+  usecase "Input Medicine Stock" as UC2
+  usecase "Update Medicine Stock" as UC3
+  usecase "Delete Medicine Data" as UC4
+}
+U --> UC1
+U --> UC3
+U --> UC4
+UC1 --> UC2 : <<include>>
+@enduml

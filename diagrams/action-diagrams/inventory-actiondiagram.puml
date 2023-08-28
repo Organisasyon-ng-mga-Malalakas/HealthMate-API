@@ -1,0 +1,15 @@
+@startuml
+|User|
+start
+:Enter medicine details;
+:Enter number of stocks;
+|System|
+:Validate medicine details and number of stocks;
+if (Is valid?) then (yes)
+  :Add medicine to inventory;
+else (no)
+  :Show error;
+endif
+stop
+
+@enduml

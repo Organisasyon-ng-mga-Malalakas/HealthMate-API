@@ -1,0 +1,14 @@
+@startuml  HealthMate - Login use-case diagram
+top to bottom direction
+actor "User" as user
+rectangle "Login" as login {
+  usecase "Enter Credentials" as UC1
+  usecase "Authenticate User" as UC2
+  usecase "Reset Password" as UC3
+  usecase "Send Password Reset Email" as UC4
+}
+user --> UC1
+UC1 --> UC2
+UC2 --> UC3 : <<extend>>
+UC3 --> UC4 : <<include>>
+@enduml
