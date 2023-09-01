@@ -19,7 +19,6 @@ jinja2-time==0.2.0
 Mako==1.2.4
 manage-fastapi==1.1.1
 MarkupSafe==2.1.2
-mysqlclient==2.1.1
 passlib==1.7.4
 poyo==0.5.0
 prompt-toolkit==3.0.38
@@ -29,7 +28,7 @@ python-dateutil==2.8.2
 python-dotenv==1.0.0
 python-jose==3.3.0
 python-multipart==0.0.6
-python-slugify==8.0.1
+psycopg2
 questionary==1.10.0
 requests==2.30.0
 rsa==4.9
