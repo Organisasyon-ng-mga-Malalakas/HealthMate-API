@@ -11,6 +11,7 @@ jobs:
       DB_PORT: ${{vars.DB_PORT}}
       DB_PASSWORD: ${{secrets.DB_PASSWORD}}
       DB_DATABASE: ${{vars.DB_DATABASE}}
+      DB_DATABASE_TESTING: ${{vars.DB_DATABASE_TESTING}}
       DB_USER: ${{vars.DB_USER}}
       AUTH_SECRET_KEY: ${{secrets.AUTH_SECRET_KEY}}
       AUTH_ALGORITHM: ${{secrets.AUTH_ALGORITHM}}
