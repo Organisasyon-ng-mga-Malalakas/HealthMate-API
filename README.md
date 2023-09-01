@@ -1,4 +1,4 @@
-# rxscheduler
+# healthmate api
 
 ## License
 
