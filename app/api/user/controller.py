@@ -26,7 +26,7 @@ def get_users(db: Session) -> List[User]:
 def create_user(db: Session, user: UserCreate) -> User:
     hashed_password = pwd_context.hash(user.password)
     db_user = User(
-        id=str(uuid.uuid4()),
+        id=user.id or str(uuid.uuid4()),
         username=user.username,
         email=user.email,
         password=hashed_password,

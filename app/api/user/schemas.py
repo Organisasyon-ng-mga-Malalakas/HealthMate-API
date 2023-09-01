@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 
 
 # Define schemas
@@ -11,6 +11,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
+    id: Optional[UUID4]
     password: str
 
 
