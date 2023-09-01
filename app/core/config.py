@@ -5,7 +5,7 @@ from pydantic import AnyHttpUrl, BaseSettings, validator
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str
+    PROJECT_NAME: str = "healthmate"
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
@@ -32,8 +32,8 @@ class Settings(BaseSettings):
                f"{values.get('DB_PORT')}/{values.get('DB_DATABASE')}"
 
     AUTH_SECRET_KEY: str
-    AUTH_ALGORITHM: str
-    AUTH_ACCESS_TOKEN_EXPIRE_MINUTES: int
+    AUTH_ALGORITHM: str = "HS256"
+    AUTH_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     class Config:
         case_sensitive = True
