@@ -17,7 +17,7 @@ class UserFactory(alchemy.SQLAlchemyModelFactory):
         model = User
         sqlalchemy_session = Session
 
-    id = LazyAttribute(lambda n: str(uuid4()))
+    id = LazyAttribute(lambda n: uuid4())
     username = Faker("user_name")
     email = Faker("email")
     password = Faker("password")

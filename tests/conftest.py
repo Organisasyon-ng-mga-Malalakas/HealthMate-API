@@ -14,7 +14,7 @@ def dbsession():
 
     engine = create_engine(
         url=f"postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:"
-        f"{settings.DB_PORT}/{settings.DB_DATABASE_TESTING}", echo=True
+        f"{settings.DB_PORT}/{settings.DB_DATABASE_TESTING}",
     )
     connection = engine.connect()
     transaction = connection.begin()

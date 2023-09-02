@@ -30,7 +30,7 @@ def create_user(db: Session, user: UserCreate) -> User:
         username=user.username,
         email=user.email,
         password=hashed_password,
-        created_at=datetime.now(),
+        created_at=datetime.utcnow(),
         deleted_at=None,
         updated_at=None,
     )
