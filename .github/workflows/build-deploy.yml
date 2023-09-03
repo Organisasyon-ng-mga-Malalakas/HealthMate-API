@@ -16,6 +16,7 @@ jobs:
       AUTH_SECRET_KEY: ${{secrets.AUTH_SECRET_KEY}}
       AUTH_ALGORITHM: ${{secrets.AUTH_ALGORITHM}}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${{vars.ACCESS_TOKEN_EXPIRE_MINUTES}}
+      SYMPTOM_SERVICE_URL: ${{vars.SYMPTOM_SERVICE_URL}}
 
     services:
       postgres:
@@ -48,3 +49,45 @@ jobs:
         run: |
           pip install pytest
           pytest
+
+  deploy:
+    environment:
+      name: prod
+    env:
+      DB_HOST: ${{secrets.DB_HOST}}
+      DB_PORT: ${{secrets.DB_PORT}}
+      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      DB_DATABASE: ${{secrets.DB_DATABASE}}
+      DB_DATABASE_TESTING: ${{secrets.DB_DATABASE_TESTING}}
+      DB_USER: ${{secrets.DB_USER}}
+      AUTH_SECRET_KEY: ${{secrets.AUTH_SECRET_KEY}}
+      AUTH_ALGORITHM: ${{secrets.AUTH_ALGORITHM}}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
+      SYMPTOM_SERVICE_URL: ${{secrets.SYMPTOM_SERVICE_URL}}
+
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.HEALTHMATEAPI_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.HEALTHMATEAPI_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.HEALTHMATEAPI_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: jtmarilao.azurecr.io
+          registryUsername: ${{ secrets.HEALTHMATEAPI_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.HEALTHMATEAPI_REGISTRY_PASSWORD }}
+          containerAppName: healthmate-api
+          resourceGroup: capstone
+          imageToBuild: jtmarilao.azurecr.io/healthmate-api:${{ github.sha }}
+          dockerfilePath: Dockerfile
