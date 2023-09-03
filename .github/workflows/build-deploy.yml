@@ -90,5 +90,5 @@ jobs:
           registryPassword: ${{ secrets.HEALTHMATEAPI_REGISTRY_PASSWORD }}
           containerAppName: healthmate-api
           resourceGroup: capstone
-          imageToBuild: jtmarilao.azurecr.io/healthmate-api:${{ github.sha }}
+          imageToBuild: jtmarilao.azurecr.io/healthmate-api:latest
           dockerfilePath: Dockerfile
