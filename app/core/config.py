@@ -35,6 +35,8 @@ class Settings(BaseSettings):
     AUTH_ALGORITHM: str = "HS256"
     AUTH_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
+    SYMPTOM_SERVICE_URL: Optional[str]
+
     class Config:
         case_sensitive = True
         env_file = ".env"
