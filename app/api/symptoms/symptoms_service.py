@@ -92,3 +92,48 @@ class SymptomsService:
             ]
             for d in res
         }
+
+    def get_diseases_from_symptoms(self, ids: list[int]) -> dict[str, list[dict]]:
+        res = self.initialize()
+        if not res:
+            return False
+
+        cookie = None
+        for id in ids:
+            data = {
+                "command": "addSymptom",
+                "symptomId": id,
+                "has_red_flag:": False,
+                "rand": random(),
+            }
+            res = requests.post(
+                self.base_url, data=data, cookies=cookie if cookie else None
+            )
+            cookie = res.cookies
+
+        data = {
+            "command": "getDiagnoses",
+            "rand": random(),
+        }
+        res = requests.get(self.base_url, params=data, cookies=cookie)
+        if not res:
+            return False
+        res = res.json()
+
+        return {
+            "diagnosis": [
+                {
+                    "id": y["IssueID"],
+                    "name": y["Name"],
+                    "accuracy": y["Accuracy"],
+                }
+                for y in res["DiagnosisResult"]
+            ],
+            "similar_symptoms": [
+                {
+                    "id": y["ID"],
+                    "name": y["Name"],
+                }
+                for y in res["ProposedSymptoms"]
+            ],
+        }
