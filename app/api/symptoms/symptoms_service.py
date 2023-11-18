@@ -11,6 +11,7 @@ class SymptomsService:
         self.birth_year = birth_year
         self.body_part = body_part
         self.gender = gender
+        self.cookie = None
 
     def get(self, path):
         url = f"{self.base_url}/{path}"
@@ -28,18 +29,26 @@ class SymptomsService:
             "year": self.birth_year,
             "rand": random(),
         }
-        res = self.post(f"{self.base_url}/start", data)
+        res = requests.post(
+            f"{self.base_url}/start", data=data, cookies=self.cookie
+        )
         if not res:
             return False
+
+        self.cookie = res.cookies
 
         data["command"] = "changeGenderAndStatus"
         data["rand"] = random()
         data["gender"], data["status"] = self.get_gender_code(self.gender)
-        res = self.post(f"{self.base_url}/start", data)
+        res = requests.post(
+            f"{self.base_url}/start", data=data, cookies=self.cookie
+        )
         if not res:
             return False
 
-        return res["Success"] == True
+        self.cookie = res.cookies
+
+        return res.status_code == 200
 
     def get_gender_code(self, gender: str) -> tuple[int, int]:
         genders = {
@@ -93,12 +102,13 @@ class SymptomsService:
             for d in res
         }
 
-    def get_diseases_from_symptoms(self, ids: list[int]) -> dict[str, list[dict]]:
+    def get_diseases_from_symptoms(
+        self, ids: list[int]
+    ) -> dict[str, list[dict]]:
         res = self.initialize()
         if not res:
             return False
 
-        cookie = None
         for id in ids:
             data = {
                 "command": "addSymptom",
@@ -106,16 +116,15 @@ class SymptomsService:
                 "has_red_flag:": False,
                 "rand": random(),
             }
-            res = requests.post(
-                self.base_url, data=data, cookies=cookie if cookie else None
-            )
-            cookie = res.cookies
+            res = requests.post(self.base_url, data=data, cookies=self.cookie)
+            self.cookie = res.cookies
 
         data = {
             "command": "getDiagnoses",
             "rand": random(),
         }
-        res = requests.get(self.base_url, params=data, cookies=cookie)
+        res = requests.get(self.base_url, params=data, cookies=self.cookie)
+
         if not res:
             return False
         res = res.json()
@@ -136,4 +145,25 @@ class SymptomsService:
                 }
                 for y in res["ProposedSymptoms"]
             ],
+        }
+
+    def get_condition_details(self, diagnosis_id: int) -> dict[str, list[dict]]:
+        res = self.initialize()
+        if not res:
+            return False
+
+        data = {
+            "command": "getIssueInfo",
+            "healthIssueId": diagnosis_id,
+        }
+        res = requests.get(self.base_url, params=data, cookies=self.cookie)
+        if not res:
+            return False
+        res = res.json()
+
+        return {
+            "name": res["Name"],
+            "description": res["Description"],
+            "medical_term": res["ProfName"],
+            "treatment": res["TreatmentDescription"],
         }
