@@ -1,5 +1,9 @@
-import requests
+import json
 from random import random
+from urllib.parse import urlencode
+
+import requests
+from fastapi.exceptions import HTTPException
 
 from app.core.config import settings
 
@@ -105,29 +109,45 @@ class SymptomsService:
     def get_diseases_from_symptoms(
         self, ids: list[int]
     ) -> dict[str, list[dict]]:
+
+        data = None
+
         res = self.initialize()
         if not res:
             return False
 
         for id in ids:
+            rand = random()
             data = {
                 "command": "addSymptom",
                 "symptomId": id,
                 "has_red_flag:": False,
-                "rand": random(),
+                "rand": rand,
             }
-            res = requests.post(self.base_url, data=data, cookies=self.cookie)
+            res = requests.post(
+                self.base_url,
+                data=data,
+                cookies=self.cookie,
+            )
             self.cookie = res.cookies
 
-        data = {
-            "command": "getDiagnoses",
-            "rand": random(),
-        }
-        res = requests.get(self.base_url, params=data, cookies=self.cookie)
+            data = {
+                "command": "getDiagnoses",
+                "rand": random(),
+            }
+            res = requests.get(self.base_url, params=data, cookies=self.cookie)
 
-        if not res:
-            return False
-        res = res.json()
+            if not res:
+                return False
+
+            try:
+                self.cookie = res.cookies
+                data = res.json()
+            except:
+                raise HTTPException(
+                    400,
+                    "Unable to process the request. Please check your symptom ids.",
+                )
 
         return {
             "diagnosis": [
@@ -136,14 +156,14 @@ class SymptomsService:
                     "name": y["Name"],
                     "accuracy": y["Accuracy"],
                 }
-                for y in res["DiagnosisResult"]
+                for y in data["DiagnosisResult"]
             ],
             "similar_symptoms": [
                 {
                     "id": y["ID"],
                     "name": y["Name"],
                 }
-                for y in res["ProposedSymptoms"]
+                for y in data["ProposedSymptoms"]
             ],
         }
 

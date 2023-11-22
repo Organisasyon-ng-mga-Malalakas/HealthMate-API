@@ -19,19 +19,21 @@ async def get_symptoms(
     return symptoms.get_symptoms()
 
 
-@router.get("/result")
+@router.post("/result")
 async def get_diseases_from_symptoms(
-    birth_year: int,
-    gender: Literal["male", "female"],
+    birth_year: int = Body(...),
+    gender: Literal["male", "female"] = Body(...),
     body_part: Literal[
         "head", "upperbody", "lowerbody", "legs", "arms", "general"
-    ],
-    symptom_ids: str,
+    ] = Body(...),
+    symptom_ids: list[int] = Body(...),
 ):
     symptoms = SymptomsService(
         birth_year=birth_year, gender=gender, body_part=body_part
     )
-    return symptoms.get_diseases_from_symptoms(symptom_ids.split(","))
+    return symptoms.get_diseases_from_symptoms(
+        symptom_ids
+    )
 
 
 @router.get("/details/{diagnosis_id}")
