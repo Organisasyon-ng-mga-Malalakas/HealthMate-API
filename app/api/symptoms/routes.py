@@ -26,7 +26,7 @@ async def get_diseases_from_symptoms(
     body_part: Literal[
         "head", "upperbody", "lowerbody", "legs", "arms", "general"
     ],
-    symptom_ids: list,
+    symptom_ids: str,
 ):
     symptoms = SymptomsService(
         birth_year=birth_year, gender=gender, body_part=body_part
