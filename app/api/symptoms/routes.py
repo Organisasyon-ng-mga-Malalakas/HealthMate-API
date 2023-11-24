@@ -1,5 +1,5 @@
 from app.api.symptoms.symptoms_service import SymptomsService
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, HTTPException
 from typing import Literal
 
 router = APIRouter()
@@ -19,21 +19,28 @@ async def get_symptoms(
     return symptoms.get_symptoms()
 
 
-@router.post("/result")
+@router.get("/result")
 async def get_diseases_from_symptoms(
-    birth_year: int = Body(...),
-    gender: Literal["male", "female"] = Body(...),
+    birth_year: int,
+    gender: Literal["male", "female"],
     body_part: Literal[
         "head", "upperbody", "lowerbody", "legs", "arms", "general"
-    ] = Body(...),
-    symptom_ids: list[int] = Body(...),
+    ],
+    symptom_ids: list,
 ):
     symptoms = SymptomsService(
         birth_year=birth_year, gender=gender, body_part=body_part
     )
-    return symptoms.get_diseases_from_symptoms(
-        symptom_ids
-    )
+
+    try:
+        ids = list(map(lambda x: int(x), symptom_ids.split(",")))
+    except:
+        raise HTTPException(
+            400,
+            "Unable to process the request. Please check your symptom ids.",
+        )
+
+    return symptoms.get_diseases_from_symptoms(ids)
 
 
 @router.get("/details/{diagnosis_id}")
