@@ -20,7 +20,7 @@ class UserUpdate(UserBase):
 
 
 class UserInDBBase(UserBase):
-    id: str
+    id: UUID4
     updated_at: Optional[datetime]
     created_at: Optional[datetime]
     deleted_at: Optional[datetime]
