@@ -36,6 +36,9 @@ class Settings(BaseSettings):
     AUTH_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     SYMPTOM_SERVICE_URL: Optional[str]
+    MAIL_SERVICE_URL: Optional[str]
+    MAIL_SERVICE_API_KEY: Optional[str]
+    API_URL: Optional[str]
 
     class Config:
         case_sensitive = True

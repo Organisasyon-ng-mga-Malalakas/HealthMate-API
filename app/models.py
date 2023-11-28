@@ -15,3 +15,12 @@ class User(Base):
     password = Column(Text, nullable=False)
 
 
+class ForgotPassword(Base):
+    __tablename__ = "forgot_password"
+
+    user_id = Column(UUID, primary_key=True, unique=True, nullable=False)
+    created_at = Column(DateTime, nullable=True)
+    status = Column(Text, nullable=False)
+    identifier = Column(Text, nullable=True)
+
+

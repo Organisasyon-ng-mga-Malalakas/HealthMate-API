@@ -1,14 +1,17 @@
+import secrets
+import string
 import uuid
 from datetime import datetime, timedelta
 from typing import List, Optional
 
-from app.core.config import settings
-from app.core.security import pwd_context
 from jose import jwt
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.api.user.schemas import UserCreate, UserUpdate
-from app.models import User
+from app.core.config import settings
+from app.core.security import pwd_context
+from app.models import ForgotPassword, User
 
 
 def get_user(db: Session, username: str) -> Optional[User]:
@@ -80,3 +83,52 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         algorithm=settings.AUTH_ALGORITHM,
     )
     return encoded_jwt
+
+
+def create_forgot_password_data(db: Session, userid):
+    identifier = generate_random_identifier()
+    forgot_pass = ForgotPassword(
+        user_id=userid,
+        status="pending",
+        created_at=datetime.utcnow(),
+        identifier=identifier,
+    )
+    db.add(forgot_pass)
+    db.commit()
+    return identifier
+
+
+def check_forgot_password_data(db: Session, userid):
+    try:
+        forgot_pass = (
+            db.query(ForgotPassword)
+            .filter(
+                ForgotPassword.user_id == userid,
+                ForgotPassword.created_at
+                <= func.timezone("UTC", func.now()) - timedelta(seconds=60),
+            )
+            .first()
+        )
+    except:
+        return False
+    return forgot_pass
+
+
+def check_forgot_password_identifier(db: Session, identifier: str = ""):
+    try:
+        forgot_pass = (
+            db.query(ForgotPassword)
+            .filter(
+                ForgotPassword.identifier == identifier,
+            )
+            .first()
+        )
+    except:
+        return False
+    return forgot_pass
+
+
+def generate_random_identifier():
+    alphabet = string.ascii_letters + string.digits
+    identifier = "".join(secrets.choice(alphabet) for _ in range(12))
+    return identifier
