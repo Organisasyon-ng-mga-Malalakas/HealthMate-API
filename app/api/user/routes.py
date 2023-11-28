@@ -105,7 +105,7 @@ async def generate_new_password(hash: str, db: Session = Depends(get_db)):
 
     db.commit()
 
-    if not send_new_password_email(user.username, new_pass):
+    if not send_new_password_email(user.email, user.username, new_pass):
         {"new_pass": new_pass}
 
     return {
@@ -136,7 +136,9 @@ async def forgot_password(username: str, db: Session = Depends(get_db)):
             detail="Unable to process forgot password. Please check your email for existing forgot password requests.",
         )
 
-    if not send_forgot_password_email(db_user.username, forgot_pass_identifier):
+    if not send_forgot_password_email(
+        db_user.email, db_user.username, forgot_pass_identifier
+    ):
         raise HTTPException(
             status_code=400,
             detail="Unable to process forgot password right now.",
