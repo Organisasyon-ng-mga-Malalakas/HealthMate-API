@@ -67,10 +67,10 @@ jobs:
       AUTH_SECRET_KEY: ${{secrets.AUTH_SECRET_KEY}}
       AUTH_ALGORITHM: ${{secrets.AUTH_ALGORITHM}}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
-      SYMPTOM_SERVICE_URL: ${{secrets.SYMPTOM_SERVICE_URL}}
       MAIL_SERVICE_URL: ${{secrets.MAIL_SERVICE_URL}}
       MAIL_SERVICE_API_KEY: ${{secrets.MAIL_SERVICE_API_KEY}}
       API_URL: ${{secrets.API_URL}}
+      SYMPTOM_SERVICE_URL: ${{secrets.SYMPTOM_SERVICE_URL}}
 
     runs-on: ubuntu-latest
     permissions: 
