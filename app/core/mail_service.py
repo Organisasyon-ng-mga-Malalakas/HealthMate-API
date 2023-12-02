@@ -32,16 +32,15 @@ def send_forgot_password_email(email: str, username: str, identifier: str):
 def send_new_password_email(email: str, username: str, new_pass: str):
     auth = ("api", settings.MAIL_SERVICE_API_KEY)
 
+    # fmt: off
     data = {
         "from": "Hello from Healthmate! <hello@healthmate.com>",
         "to": email,
         "subject": "Your Fresh Password for a Healthier Journey 🌟",
         "html": "<!doctypehtml><html lang=en><meta charset=UTF-8><title>Forgot Password Email</title><style>body{font-family:Arial,sans-serif;line-height:1.6;margin:0;padding:0;background-color:#f5f5f5}.container{max-width:600px;margin:20px auto;padding:20px;background-color:#fff;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,.1)}.message{margin-bottom:20px}</style><div class=container><div class=message><p>Dear "
-        + username
-        + ",<p>Revitalize your Health App experience with a brand-new password! 🚀 We're thrilled to assist you in updating your account and ensuring a seamless journey toward wellness.<p>Your new password is: 
-       " + new_pas
-       s + "<p>We understand that remembering passwords can be a workout in itself, so feel free to update it to something more memorable through your account settings.<p>Remember, your security is our top priority! If you have any concerns or didn't request this password change, please reach out to our team immediately.<p>Wishing you vibrant health and boundless energy as you continue your health journey with us!<p>Warm regards,<p>Healthmate Squad 🍏</div></div>",
+        + username + ",<p>Revitalize your Health App experience with a brand-new password! 🚀 We're thrilled to assist you in updating your account and ensuring a seamless journey toward wellness.<p>Your new password is: " + new_pass + "<p>We understand that remembering passwords can be a workout in itself, so feel free to update it to something more memorable through your account settings.<p>Remember, your security is our top priority! If you have any concerns or didn't request this password change, please reach out to our team immediately.<p>Wishing you vibrant health and boundless energy as you continue your health journey with us!<p>Warm regards,<p>Healthmate Squad 🍏</div></div>",
     }
+    # fmt: on
     response = requests.post(settings.MAIL_SERVICE_URL, auth=auth, data=data)
 
     return response.status_code == 200
