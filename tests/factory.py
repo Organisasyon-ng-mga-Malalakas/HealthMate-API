@@ -21,3 +21,5 @@ class UserFactory(alchemy.SQLAlchemyModelFactory):
     username = Faker("user_name")
     email = Faker("email")
     password = Faker("password")
+    gender = "male"
+    birthdate = Faker("date_of_birth")
