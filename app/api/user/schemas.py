@@ -8,8 +8,8 @@ from pydantic import BaseModel, UUID4
 class UserBase(BaseModel):
     username: str
     email: str
-    birthdate: datetime
-    gender: str
+    birthdate: datetime = None
+    gender: str = None
 
 
 class UserCreate(UserBase):
