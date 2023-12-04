@@ -22,4 +22,4 @@ class UserFactory(alchemy.SQLAlchemyModelFactory):
     email = Faker("email")
     password = Faker("password")
     gender = "male"
-    birthdate = Faker("date_of_birth")
+    birthdate = Faker("date_time_between")
