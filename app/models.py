@@ -13,6 +13,8 @@ class User(Base):
     username = Column(Text, unique=True, nullable=False)
     email = Column(Text, primary_key=True, unique=True, nullable=False)
     password = Column(Text, nullable=False)
+    birthdate = Column(DateTime, nullable=True)
+    gender = Column(Text, nullable=True)
 
 
 class ForgotPassword(Base):

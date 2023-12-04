@@ -32,6 +32,8 @@ def create_user(db: Session, user: UserCreate) -> User:
         id=user.id or str(uuid.uuid4()),
         username=user.username,
         email=user.email,
+        gender=user.gender,
+        birthdate=user.birthdate,
         password=hashed_password,
         created_at=datetime.utcnow(),
         deleted_at=None,
@@ -46,6 +48,14 @@ def create_user(db: Session, user: UserCreate) -> User:
 def update_user(db: Session, user: User, user_update: UserUpdate) -> User:
     user.username = user_update.username or user.username
     user.email = user_update.email or user.email
+    user.updated_at = datetime.utcnow()
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+def update_user_password(db: Session, user: User, password: str) -> User:
+    user.password = password
     user.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(user)
