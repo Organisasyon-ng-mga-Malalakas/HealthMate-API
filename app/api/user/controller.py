@@ -22,6 +22,12 @@ def get_user(db: Session, username: str) -> Optional[User]:
     )
 
 
+def get_user_by_id(db: Session, id: str) -> Optional[User]:
+    if not is_valid_uuid4(id):
+        return None
+    return db.query(User).filter(User.id == id).first()
+
+
 def get_users(db: Session) -> List[User]:
     return db.query(User).filter(User.deleted_at == None).all()
 
@@ -142,3 +148,10 @@ def generate_random_identifier():
     alphabet = string.ascii_letters + string.digits
     identifier = "".join(secrets.choice(alphabet) for _ in range(12))
     return identifier
+
+def is_valid_uuid4(s):
+    try:
+        uuid_obj = uuid.UUID(s, version=4)
+        return str(uuid_obj) == s
+    except ValueError:
+        return False

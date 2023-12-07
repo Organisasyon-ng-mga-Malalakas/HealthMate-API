@@ -26,3 +26,15 @@ class ForgotPassword(Base):
     identifier = Column(Text, nullable=True)
 
 
+class Questions(Base):
+    __tablename__ = "questions"
+
+    question_id = Column(UUID, unique=True, nullable=False)
+    user_id = Column(UUID, primary_key=True, nullable=False)
+    created_at = Column(DateTime, nullable=True)
+    updated_at = Column(DateTime, nullable=True)
+    name = Column(Text, primary_key=True, nullable=True)
+    category = Column(Text, nullable=True)
+    value = Column(Text, nullable=True)
+
+
