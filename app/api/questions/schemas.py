@@ -12,5 +12,5 @@ class Question(BaseModel):
         orm_mode = True
 
 class UpsertQuestions(BaseModel):
-    user_id: string
+    user_id: str
     questions: list[Question]
