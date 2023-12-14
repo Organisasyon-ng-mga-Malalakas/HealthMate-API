@@ -186,4 +186,5 @@ class SymptomsService:
             "description": res["Description"],
             "medical_term": res["ProfName"],
             "treatment": res["TreatmentDescription"],
+            "possible_symptoms": res["PossibleSymptoms"],
         }
