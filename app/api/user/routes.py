@@ -4,6 +4,7 @@ from typing import List, Optional
 import app.models as models
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 import app.api.user.controller as user_controller
@@ -79,7 +80,11 @@ async def login_access_token_route(
     access_token = user_controller.create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "data": jsonable_encoder(user, exclude={"password"}),
+    }
 
 
 @router.get("/forgot-password/confirm/{hash}")
