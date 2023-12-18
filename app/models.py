@@ -48,7 +48,6 @@ class Inventory(Base):
     created_at = Column(DateTime, nullable=True)
     updated_at = Column(DateTime, nullable=True)
     deleted_at = Column(DateTime, nullable=True)
-    deleted_at = Column(DateTime, nullable=True)
     brand_name = Column(Text, nullable=True)
     medicine_name = Column(Text, nullable=True)
     dosage = Column(Numeric, nullable=True)
