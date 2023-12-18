@@ -33,3 +33,7 @@ class UserInDBBase(UserBase):
 
 class User(UserInDBBase):
     pass
+
+class UserLogin(BaseModel):
+    username: str
+    password: str

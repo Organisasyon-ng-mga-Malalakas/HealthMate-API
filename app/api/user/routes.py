@@ -8,7 +8,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 import app.api.user.controller as user_controller
-from app.api.user.schemas import User, UserCreate, UserUpdate
+from app.api.user.schemas import User, UserCreate, UserUpdate, UserLogin
 from app.core.config import settings
 from app.core.mail_service import (
     send_forgot_password_email,
@@ -64,7 +64,7 @@ async def delete_user_route(username: str, db: Session = Depends(get_db)):
 
 @router.post("/login", response_model=Token)
 async def login_access_token_route(
-    form_data: OAuth2PasswordRequestForm = Depends(),
+    form_data: UserLogin,
     db: Session = Depends(get_db),
 ):
     user = user_controller.authenticate_user(
