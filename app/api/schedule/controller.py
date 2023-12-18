@@ -13,7 +13,9 @@ from .schemas import Schedule
 
 def get_user_schedules(db: Session, user_id: str):
     return (
-        db.query(ScheduleModel).filter(ScheduleModel.user_id == user_id).all()
+        db.query(*ScheduleModel.__table__.columns)
+        .filter(ScheduleModel.user_id == user_id)
+        .all()
     )
 
 
