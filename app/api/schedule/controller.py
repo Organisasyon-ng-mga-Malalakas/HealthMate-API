@@ -24,11 +24,9 @@ def upsert_user_schedules(db: Session, user_id: str, schedules: list[Schedule]):
         [
             {
                 "created_at": datetime.utcnow(),
-                "schedule_id": str(uuid.uuid4()),
                 "user_id": user_id,
                 **entry.dict(
                     exclude={
-                        "schedule_id",
                         "created_at",
                         "deleted_at",
                         "updated_at",

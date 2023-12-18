@@ -43,7 +43,7 @@ class Questions(Base):
 class Inventory(Base):
     __tablename__ = "inventory"
 
-    inventory_id = Column(UUID, unique=True, nullable=False)
+    inventory_id = Column(String, unique=True, nullable=False)
     user_id = Column(UUID, primary_key=True, nullable=False)
     created_at = Column(DateTime, nullable=True)
     updated_at = Column(DateTime, nullable=True)
@@ -61,7 +61,7 @@ class Inventory(Base):
 class Schedule(Base):
     __tablename__ = "schedule"
 
-    schedule_id = Column(UUID, unique=True, nullable=False)
+    schedule_id = Column(String, unique=True, nullable=False)
     user_id = Column(UUID, primary_key=True, nullable=False)
     created_at = Column(DateTime, nullable=True)
     updated_at = Column(DateTime, nullable=True)
