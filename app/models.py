@@ -52,7 +52,7 @@ class Inventory(Base):
     medicine_name = Column(Text, nullable=True)
     dosage = Column(Numeric, nullable=True)
     dosage_unit = Column(Integer, nullable=True)
-    stock = Column(Text, nullable=True)
+    stock = Column(Numeric, nullable=True)
     medication_type = Column(Integer, nullable=True)
     description = Column(Text, nullable=True)
 

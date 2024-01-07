@@ -12,7 +12,7 @@ class Inventory(BaseModel):
     deleted_at: Optional[datetime]
     brand_name: Optional[str]
     medicine_name: Optional[str]
-    stock: Optional[str]
+    stock: Optional[float]
     dosage: float
     dosage_unit: int
     medication_type: int
