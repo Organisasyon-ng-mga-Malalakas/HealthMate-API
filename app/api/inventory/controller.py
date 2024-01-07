@@ -14,12 +14,32 @@ from .schemas import Inventory
 def get_user_inventory(db: Session, user_id: str):
     return (
         db.query(*InventoryModel.__table__.columns)
-        .filter(InventoryModel.user_id == user_id)
+        .filter(
+            InventoryModel.user_id == user_id, InventoryModel.deleted_at == None
+        )
         .all()
     )
 
 
-def upsert_user_inventory(db: Session, user_id: str, inventory: list[Inventory]):
+def delete_inventory_item(db: Session, id: str):
+    try:
+        (
+            db.query(InventoryModel)
+            .filter(InventoryModel.inventory_id == id)
+            .update({InventoryModel.deleted_at: datetime.utcnow()})
+        )
+
+        db.commit()
+    except Exception as e:
+        print(e)
+        return False
+    else:
+        return True
+
+
+def upsert_user_inventory(
+    db: Session, user_id: str, inventory: list[Inventory]
+):
     stmt = insert(InventoryModel).values(
         [
             {

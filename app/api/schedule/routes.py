@@ -6,7 +6,11 @@ from sqlalchemy.orm import Session
 import app.api.user.controller as user_controller
 from app.database import get_db
 
-from .controller import get_user_schedules, upsert_user_schedules
+from .controller import (
+    get_user_schedules,
+    upsert_user_schedules,
+    delete_schedule,
+)
 from .schemas import Schedule, UpsertSchedules
 
 router = APIRouter()
@@ -32,3 +36,12 @@ async def read_user_schedules(user_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Account not found.")
 
     return get_user_schedules(db, user_id)
+
+
+@router.delete("/", response_model=dict[str, str])
+async def delete_user_schedules(id: str, db: Session = Depends(get_db)):
+    is_ok = delete_schedule(db, id)
+    if not is_ok:
+        raise HTTPException(status_code=500, detail="Unable to delete item.")
+
+    return {"status": "ok"}

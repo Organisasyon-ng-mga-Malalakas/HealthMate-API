@@ -14,9 +14,27 @@ from .schemas import Schedule
 def get_user_schedules(db: Session, user_id: str):
     return (
         db.query(*ScheduleModel.__table__.columns)
-        .filter(ScheduleModel.user_id == user_id)
+        .filter(
+            ScheduleModel.user_id == user_id, ScheduleModel.deleted_at == None
+        )
         .all()
     )
+
+
+def delete_schedule(db: Session, id: str):
+    try:
+        (
+            db.query(ScheduleModel)
+            .filter(ScheduleModel.schedule_id == id)
+            .update({ScheduleModel.deleted_at: datetime.utcnow()})
+        )
+
+        db.commit()
+    except Exception as e:
+        print(e)
+        return False
+    else:
+        return True
 
 
 def upsert_user_schedules(db: Session, user_id: str, schedules: list[Schedule]):
