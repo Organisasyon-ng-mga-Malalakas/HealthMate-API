@@ -7,6 +7,7 @@ from pydantic import BaseModel, UUID4, validator
 
 class Schedule(BaseModel):
     schedule_id: Optional[str]
+    inventory_id: Optional[str]
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
     deleted_at: Optional[datetime]

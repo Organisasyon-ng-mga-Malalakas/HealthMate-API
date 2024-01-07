@@ -59,6 +59,7 @@ def upsert_user_schedules(db: Session, user_id: str, schedules: list[Schedule]):
         set_={
             "updated_at": datetime.utcnow(),
             "time_to_take": stmt.excluded.time_to_take,
+            "inventory_id": stmt.excluded.inventory_id,
             "schedule_state": stmt.excluded.schedule_state,
             "notes": stmt.excluded.notes,
             "quantity": stmt.excluded.quantity,

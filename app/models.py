@@ -61,6 +61,7 @@ class Schedule(Base):
     __tablename__ = "schedule"
 
     schedule_id = Column(String, unique=True, nullable=False)
+    inventory_id = Column(String, nullable=True)
     user_id = Column(UUID, primary_key=True, nullable=False)
     created_at = Column(DateTime, nullable=True)
     updated_at = Column(DateTime, nullable=True)
