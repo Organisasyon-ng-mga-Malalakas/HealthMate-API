@@ -15,7 +15,7 @@ def get_user_schedules(db: Session, user_id: str):
     return (
         db.query(*ScheduleModel.__table__.columns)
         .filter(
-            ScheduleModel.user_id == user_id, ScheduleModel.deleted_at == None
+            ScheduleModel.user_id == user_id
         )
         .all()
     )

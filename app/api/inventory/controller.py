@@ -15,7 +15,7 @@ def get_user_inventory(db: Session, user_id: str):
     return (
         db.query(*InventoryModel.__table__.columns)
         .filter(
-            InventoryModel.user_id == user_id, InventoryModel.deleted_at == None
+            InventoryModel.user_id == user_id
         )
         .all()
     )
